@@ -1,0 +1,6 @@
+#!/bin/sh
+
+Xvfb :1 -screen 0 1600x1200x24 &
+cd ts3/TeamSpeak3-Client-linux_amd64 
+DISPLAY=:1 LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH" ./ts3client_linux_amd64 ts3server://ts.ineentho.com?nickname=Music%20Bot%20v2.0
+
