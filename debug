@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./run &
+sleep 2
+DISPLAY=:1 x11vnc

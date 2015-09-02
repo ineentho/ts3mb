@@ -8,8 +8,11 @@ RUN apt-get -y update && \
         less \
         xvfb \
         qt5-default \
-        imagemagick
+        imagemagick \
+        x11vnc
 
+
+WORKDIR /root
 
 RUN mkdir ts3 && \
     cd ts3 && \
@@ -17,10 +20,13 @@ RUN mkdir ts3 && \
     chmod +x TeamSpeak3-Client-linux_amd64-3.0.17.run && \
     yes | ./TeamSpeak3-Client-linux_amd64-3.0.17.run
 
-ADD run .
-ADD .ts3client /root/.ts3client
+ADD run run
+ADD debug debug
 
 RUN mkdir dbg
 VOLUME ["/dbg"]
 
 CMD ["./run"]
+
+
+EXPOSE 5900
