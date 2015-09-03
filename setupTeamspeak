@@ -1,0 +1,34 @@
+#!/bin/bash
+
+sleep 5
+export DISPLAY=:1
+export LICENSE_WINDOW=$(xdotool search .\* | tail -1)
+
+for i in `seq 1 10`; do
+    xdotool key --window $LICENSE_WINDOW Next
+done
+
+for i in `seq 1 5`; do
+    xdotool key --window $LICENSE_WINDOW Tab
+done
+
+sleep 1
+
+xdotool key --window $LICENSE_WINDOW Return
+
+sleep 2
+
+export SETUP_WINDOW=$(xdotool search .\* | tail -1)
+
+xdotool key --window $SETUP_WINDOW Tab
+xdotool key --window $SETUP_WINDOW Return
+
+sleep 2
+
+export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
+
+xdotool key --window $CONFIRM_WINDOW Return
+
+echo Setup window $SETUP_WINDOW
+
+echo License window $LICENSE_WINDOW

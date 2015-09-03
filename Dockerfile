@@ -9,7 +9,8 @@ RUN apt-get -y update && \
         xvfb \
         qt5-default \
         imagemagick \
-        x11vnc
+        x11vnc \
+        xdotool
 
 
 WORKDIR /root
@@ -22,6 +23,7 @@ RUN mkdir ts3 && \
 
 ADD run run
 ADD debug debug
+ADD setupTeamspeak setupTeamspeak
 
 RUN mkdir dbg
 VOLUME ["/dbg"]
