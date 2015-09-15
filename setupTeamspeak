@@ -1,38 +1,43 @@
 #!/bin/bash
 
+function wait-win {
+    while :; do
+        for winid in $(xdotool search --name .\*); do
+            if [ "$(xdotool getwindowname $winid)" = "$1" ] ; then
+                echo "$winid"
+                break 2
+            fi
+        done
+        sleep .2
+    done
+}
+
+function key {
+    # window key
+    xdotool key --window $1 $2
+}
+
+function key-repeat {
+    # window key times
+
+    for i in `seq 1 $3`; do
+        key $1 $2
+    done
+}
+
 export DISPLAY=:1
-echo "Waiting for license window.."
-export LICENSE_WINDOW=$(while : ; do for i in $(xdotool search --name .\*) ; do if [ "$(xdotool getwindowname $i)" = "License agreement" ] ; then echo $i ; break 2 ; fi ; done ; sleep .2 ; done)
-echo "License window found"
 
 
-return
+## ACCEPT THE LICENSE AGREEMENT
+export LICENSE_WINDOW=$(wait-win "License agreement")
+key-repeat $LICENSE_WINDOW Next 10      # scroll down the license agreement
+key-repeat $LICENSE_WINDOW Tab 5        # tab to the agree button
+key $LICENSE_WINDOW Return              # press the accept button
 
-for i in `seq 1 10`; do
-    xdotool key --window $LICENSE_WINDOW Next
-done
-
-for i in `seq 1 5`; do
-    xdotool key --window $LICENSE_WINDOW Tab
-done
-
-sleep 1
-
-xdotool key --window $LICENSE_WINDOW Return
-
-sleep 2
-
-export SETUP_WINDOW=$(xdotool search .\* | tail -1)
-
-xdotool key --window $SETUP_WINDOW Tab
-xdotool key --window $SETUP_WINDOW Return
-
-sleep 2
-
+# CANCEL THE SETUP WIZARD
+export SETUP_WINDOW=$(wait-win "TeamSpeak 3 Setup Wizard")
+key $SETUP_WINDOW Tab                   # tab to the cancel button
+key $SETUP_WINDOW Return                # press it
 export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
+key $CONFIRM_WINDOW Return              # press enter to confirm
 
-xdotool key --window $CONFIRM_WINDOW Return
-
-echo Setup window $SETUP_WINDOW
-
-echo License window $LICENSE_WINDOW
