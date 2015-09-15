@@ -41,3 +41,4 @@ key $SETUP_WINDOW Return                # press it
 export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
 key $CONFIRM_WINDOW Return              # press enter to confirm
 
+iceweasel $WEBSITE

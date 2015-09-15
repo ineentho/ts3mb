@@ -17,7 +17,8 @@ RUN apt-get -y update && \
         qt5-default \
         imagemagick \
         x11vnc \
-        xdotool
+        xdotool \
+        iceweasel
 
 
 WORKDIR /root
