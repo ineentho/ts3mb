@@ -25,6 +25,12 @@ function key-repeat {
     done
 }
 
+function click {
+    # window x y
+    xdotool mousemove -w $1 $2 $3
+    xdotool click -w $1 1
+}
+
 export DISPLAY=:1
 
 
@@ -34,11 +40,31 @@ key-repeat $LICENSE_WINDOW Next 10      # scroll down the license agreement
 key-repeat $LICENSE_WINDOW Tab 5        # tab to the agree button
 key $LICENSE_WINDOW Return              # press the accept button
 
-# CANCEL THE SETUP WIZARD
+## CANCEL THE SETUP WIZARD
 export SETUP_WINDOW=$(wait-win "TeamSpeak 3 Setup Wizard")
 key $SETUP_WINDOW Tab                   # tab to the cancel button
 key $SETUP_WINDOW Return                # press it
 export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
 key $CONFIRM_WINDOW Return              # press enter to confirm
+
+## CONFIGURE CONTINIOUS TRANSMISSION
+export MAIN_WINDOW=$(wait-win "TeamSpeak 3")
+click $MAIN_WINDOW 400 5                # click the settings drop down
+key $MAIN_WINDOW o                      # and open options
+
+export OPTIONS_WINDOW=$(wait-win "Options")
+key-repeat $OPTIONS_WINDOW Down 4       # go down to the playback tab
+key-repeat $OPTIONS_WINDOW Tab 12       # tab to voice volume adjustment
+key $OPTIONS_WINDOW Home                # drag it down to min
+key $OPTIONS_WINDOW Tab                 # tab to sound pack vol
+key $OPTIONS_WINDOW Home                # drag it down to min
+key-repeat $OPTIONS_WINDOW Tab 4        # tab to apply button
+key $OPTIONS_WINDOW Return              # hit apply
+key-repeat $OPTIONS_WINDOW Tab 11       # tab to the left hand menu
+key $OPTIONS_WINDOW Down                # go to the capture tab
+key-repeat $OPTIONS_WINDOW Tab 7        # tab to push-to-talk
+key $OPTIONS_WINDOW Down                # go to continious transmission
+key $OPTIONS_WINDOW space               # check the box
+key $OPTIONS_WINDOW Return              # close the dialog
 
 iceweasel $WEBSITE
