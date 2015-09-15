@@ -66,5 +66,3 @@ key-repeat $OPTIONS_WINDOW Tab 7        # tab to push-to-talk
 key $OPTIONS_WINDOW Down                # go to continious transmission
 key $OPTIONS_WINDOW space               # check the box
 key $OPTIONS_WINDOW Return              # close the dialog
-
-iceweasel $WEBSITE

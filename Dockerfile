@@ -1,5 +1,10 @@
 FROM debian:8.2
 
+ADD https://apt.mopidy.com/mopidy.gpg /tmp/mopidy.gpg
+ADD https://apt.mopidy.com/mopidy.list /etc/apt/sources.list.d/mopidy.list
+
+RUN apt-key add /tmp/mopidy.gpg
+
 RUN apt-get -y update && \ 
     apt-get -y upgrade && \
     apt-get -y install \
@@ -18,8 +23,28 @@ RUN apt-get -y update && \
         imagemagick \
         x11vnc \
         xdotool \
-        iceweasel
+        mopidy \
+        mopidy-soundcloud \
+        mopidy-spotify \
+        gstreamer0.10-alsa \
+        python-crypto
 
+ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
+RUN python /tmp/get-pip.py
+RUN pip install -U six
+RUN pip install \
+    Mopidy-Moped \
+    Mopidy-GMusic \
+    Mopidy-YouTube \
+    Mopidy-MusicBox-Webclient
+
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD mopidy.conf /root/.config/mopidy/mopidy.conf
+
+VOLUME /var/lib/mopidy/local
+VOLUME /var/lib/mopidy/media
 
 WORKDIR /root
 
@@ -40,3 +65,5 @@ CMD ["./run"]
 
 
 EXPOSE 5900
+EXPOSE 6600
+EXPOSE 6680

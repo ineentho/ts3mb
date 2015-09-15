@@ -7,6 +7,7 @@ usermod -aG pulse,pulse-access root
 pulseaudio -D --system
 
 ./setupTeamspeak &
+mopidy &
 
 cd ts3/TeamSpeak3-Client-linux_amd64 
 
