@@ -1,9 +1,16 @@
-FROM debian:8.1
+FROM debian:8.2
 
 RUN apt-get -y update && \ 
     apt-get -y upgrade && \
     apt-get -y install \
+        libasound2 \
+        libasound2-plugins \
+        alsa-utils \
+        alsa-oss \
+        libpulse0 \
         pulseaudio \
+        pavucontrol \
+        pulseaudio-utils \
         curl \
         less \
         xvfb \

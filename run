@@ -1,16 +1,16 @@
 #!/bin/sh
 
+Xvfb :1 -screen 0 800x600x24 &
+export DISPLAY=:1
 
-# set SERVER=ts3server://ts.ineentho.com
-export SERVER=ts3server://192.168.0.100
-
-Xvfb :1 -screen 0 1600x1200x24 &
+usermod -aG pulse,pulse-access root
+pulseaudio -D --system
 
 ./setupTeamspeak &
 
 cd ts3/TeamSpeak3-Client-linux_amd64 
 
 echo TS3 CONNECTION URL
-echo $SERVER?nickname=Music%20Bot%20v2.0
+echo $SERVER?nickname=$NAME
 
-DISPLAY=:1 LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH" ./ts3client_linux_amd64 $SERVER?nickname=Music%20Bot%20v2.0
+LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH" ./ts3client_linux_amd64 $SERVER?nickname=$NAME

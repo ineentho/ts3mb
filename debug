@@ -2,6 +2,6 @@
 
 ./run &
 
-DISPLAY=:1 x11vnc&
+DISPLAY=:1 x11vnc -q&
 
 bash
