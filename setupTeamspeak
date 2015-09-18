@@ -44,6 +44,7 @@ key $LICENSE_WINDOW Return              # press the accept button
 export SETUP_WINDOW=$(wait-win "TeamSpeak 3 Setup Wizard")
 key $SETUP_WINDOW Tab                   # tab to the cancel button
 key $SETUP_WINDOW Return                # press it
+sleep 1
 export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
 key $CONFIRM_WINDOW Return              # press enter to confirm
 
@@ -65,6 +66,12 @@ key $OPTIONS_WINDOW Down                # go to the capture tab
 key-repeat $OPTIONS_WINDOW Tab 7        # tab to push-to-talk
 key $OPTIONS_WINDOW Down                # go to continious transmission
 key $OPTIONS_WINDOW space               # check the box
+key-repeat $OPTIONS_WINDOW Tab 3        # tab to advanced options
+key $OPTIONS_WINDOW space               # tick the box
+key-repeat $OPTIONS_WINDOW Tab 2        # remove background noise
+key $OPTIONS_WINDOW space               # untick the box
+key $OPTIONS_WINDOW Tab                 # automatic voice gain control
+key $OPTIONS_WINDOW space               # untick the box
 key $OPTIONS_WINDOW Return              # close the dialog
 
 iceweasel $WEBSITE
