@@ -18,16 +18,16 @@ RUN apt-get -y update && \
         imagemagick \
         x11vnc \
         xdotool \
-        iceweasel
-
+        iceweasel \
+        libnss3
 
 WORKDIR /root
 
 RUN mkdir ts3 && \
     cd ts3 && \
-    curl -O http://dl.4players.de/ts/releases/3.0.17/TeamSpeak3-Client-linux_amd64-3.0.17.run && \
-    chmod +x TeamSpeak3-Client-linux_amd64-3.0.17.run && \
-    yes | ./TeamSpeak3-Client-linux_amd64-3.0.17.run
+    curl -O http://dl.4players.de/ts/releases/3.1.10/TeamSpeak3-Client-linux_amd64-3.1.10.run && \
+    chmod +x TeamSpeak3-Client-linux_amd64-3.1.10.run && \
+    yes | ./TeamSpeak3-Client-linux_amd64-3.1.10.run
 
 ADD run run
 ADD debug debug

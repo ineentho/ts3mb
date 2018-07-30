@@ -1,10 +1,14 @@
 #!/bin/bash
 
+echo Setup teamspeak
+
 function wait-win {
+	>&2 echo Waiting for window $1
     while :; do
         for winid in $(xdotool search --name .\*); do
             if [ "$(xdotool getwindowname $winid)" = "$1" ] ; then
                 echo "$winid"
+				>&2 echo Found window $1
                 break 2
             fi
         done
@@ -15,6 +19,7 @@ function wait-win {
 function key {
     # window key
     xdotool key --window $1 $2
+    sleep .2
 }
 
 function key-repeat {
@@ -33,37 +38,43 @@ function click {
 
 export DISPLAY=:1
 
-
 ## ACCEPT THE LICENSE AGREEMENT
 export LICENSE_WINDOW=$(wait-win "License agreement")
-key-repeat $LICENSE_WINDOW Next 10      # scroll down the license agreement
-key-repeat $LICENSE_WINDOW Tab 5        # tab to the agree button
+key-repeat $LICENSE_WINDOW Next 30      # scroll down the license agreement
+key-repeat $LICENSE_WINDOW Tab 2        # tab to the agree button
 key $LICENSE_WINDOW Return              # press the accept button
 
-## CANCEL THE SETUP WIZARD
-export SETUP_WINDOW=$(wait-win "TeamSpeak 3 Setup Wizard")
-key $SETUP_WINDOW Tab                   # tab to the cancel button
-key $SETUP_WINDOW Return                # press it
+## CLICK CONTINUE IN THE MY TEAMSPEAK WINDOW
+export MY_TS_AD_WINDOW=$(wait-win "myTeamSpeak")
+sleep 2
+key-repeat $MY_TS_AD_WINDOW Tab 3        # tab to the agree button
+key $MY_TS_AD_WINDOW Return              # press the accept button
+
+## CLICK CONTINUE WITHOUT LOGGIGN IN
+export MY_TS_WINDOW=$(wait-win "myTeamSpeak Account")
 sleep 1
-export CONFIRM_WINDOW=$(xdotool search .\* | tail -1)
-key $CONFIRM_WINDOW Return              # press enter to confirm
+key-repeat $MY_TS_WINDOW Tab 4        # tab to the agree button
+key $MY_TS_WINDOW Return              # press the accept button
 
 ## CONFIGURE CONTINIOUS TRANSMISSION
 export MAIN_WINDOW=$(wait-win "TeamSpeak 3")
-click $MAIN_WINDOW 400 5                # click the settings drop down
+sleep 1
+click $MAIN_WINDOW 350 5                # click the tools drop down
 key $MAIN_WINDOW o                      # and open options
 
 export OPTIONS_WINDOW=$(wait-win "Options")
-key-repeat $OPTIONS_WINDOW Down 4       # go down to the playback tab
-key-repeat $OPTIONS_WINDOW Tab 12       # tab to voice volume adjustment
+sleep 1
+click $OPTIONS_WINDOW 20 20				# focus the	application tab
+key-repeat $OPTIONS_WINDOW Down 2       # go down to the playback tab
+key-repeat $OPTIONS_WINDOW Tab 13       # tab to voice volume adjustment
 key $OPTIONS_WINDOW Home                # drag it down to min
 key $OPTIONS_WINDOW Tab                 # tab to sound pack vol
 key $OPTIONS_WINDOW Home                # drag it down to min
 key-repeat $OPTIONS_WINDOW Tab 4        # tab to apply button
 key $OPTIONS_WINDOW Return              # hit apply
-key-repeat $OPTIONS_WINDOW Tab 11       # tab to the left hand menu
-key $OPTIONS_WINDOW Down                # go to the capture tab
-key-repeat $OPTIONS_WINDOW Tab 7        # tab to push-to-talk
+click $OPTIONS_WINDOW 20 20				# focus the	application tab
+key $OPTIONS_WINDOW Down 3              # go to the capture tab
+key-repeat $OPTIONS_WINDOW Tab 8        # tab to push-to-talk
 key $OPTIONS_WINDOW Down                # go to continious transmission
 key $OPTIONS_WINDOW space               # check the box
 key-repeat $OPTIONS_WINDOW Tab 3        # tab to advanced options
@@ -74,4 +85,4 @@ key $OPTIONS_WINDOW Tab                 # automatic voice gain control
 key $OPTIONS_WINDOW space               # untick the box
 key $OPTIONS_WINDOW Return              # close the dialog
 
-iceweasel $WEBSITE
+firefox $WEBSITE

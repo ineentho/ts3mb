@@ -1,6 +1,6 @@
 #!/bin/sh
 
-Xvfb :1 -screen 0 800x600x24 &
+Xvfb :1 -screen 0 800x800x24 &
 export DISPLAY=:1
 
 usermod -aG pulse,pulse-access root
@@ -14,3 +14,4 @@ echo TS3 CONNECTION URL
 echo $SERVER?nickname=$NAME
 
 LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH" ./ts3client_linux_amd64 $SERVER?nickname=$NAME
+
